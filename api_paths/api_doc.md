@@ -13,6 +13,8 @@ This is to get 'b' without id
 }
 ```
 
+See [appendix-b](appendix.md#appendix-b)
+
 ### POST: `/a/b` Post b
 
 This is to post to 'b'
@@ -28,6 +30,8 @@ This is to get 'b'
     "content": "b"
 }
 ```
+
+See [appendix-c](appendix.md#appendix-c)
 
 ## c
 

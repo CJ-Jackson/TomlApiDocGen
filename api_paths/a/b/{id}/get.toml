@@ -9,3 +9,6 @@ type = "json"
 content = '''{
     "content": "b"
 }'''
+note = '''
+See [appendix-c](appendix.md#appendix-c)
+'''
