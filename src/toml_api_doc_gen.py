@@ -72,4 +72,4 @@ def create_doc() -> Iterator[str]:
 
 with open(f"{api_real_path}/api_doc.md", "w", encoding='utf-8') as f:
     print("# API Doc", file=f)
-    print("\n".join(create_doc()), file=f)
+    print("\n\n".join(create_doc()), file=f)
