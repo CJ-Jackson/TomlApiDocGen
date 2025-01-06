@@ -13,16 +13,15 @@ api_real_path = os.path.realpath("api_paths")
 
 api_paths = pathlib.Path(api_real_path)
 
-docs = list(api_paths.glob("**/get.toml"))
-docs += list(api_paths.glob("**/head.toml"))
-docs += list(api_paths.glob("**/options.toml"))
-docs += list(api_paths.glob("**/trace.toml"))
-docs += list(api_paths.glob("**/post.toml"))
-docs += list(api_paths.glob("**/put.toml"))
-docs += list(api_paths.glob("**/delete.toml"))
-docs += list(api_paths.glob("**/patch.toml"))
-docs += list(api_paths.glob("**/connect.toml"))
+docs = []
+methods = ["get", "head", "options", "trace", "post", "put", "delete", "patch", "connect"]
+for method in methods:
+    docs += list(api_paths.glob(f"**/{method}.toml"))
+
 docs.sort()
+
+
+class TomlValidationError(Exception): pass
 
 
 def open_and_add_path_detail() -> Iterator[dict]:
@@ -30,6 +29,11 @@ def open_and_add_path_detail() -> Iterator[dict]:
         doc = str(doc)
         with open(doc, "rb") as docf:
             doc_data = tomllib.load(docf)
+            match doc_data:
+                case {"group": str()}:
+                    pass
+                case _:
+                    raise TomlValidationError("Must have `group`")
             doc_data["endpoint"] = os.path.dirname(doc.removeprefix(api_real_path))
             doc_data["method"] = os.path.basename(doc).removesuffix(".toml").upper()
             yield doc_data
@@ -37,15 +41,15 @@ def open_and_add_path_detail() -> Iterator[dict]:
 
 try:
     sorted_docs = list(open_and_add_path_detail())
-except (OSError, tomllib.TOMLDecodeError) as e:
+except (OSError, tomllib.TOMLDecodeError, TomlValidationError) as e:
     print(e.__str__())
     exit(100)
 
 group_docs = {}
 for i in range(len(sorted_docs)):
-    if sorted_docs[i]["group"] not in group_docs:
-        group_docs[sorted_docs[i]["group"]] = []
-    group_docs[sorted_docs[i]["group"]].append(sorted_docs[i])
+    if sorted_docs[i]["group"].strip() not in group_docs:
+        group_docs[sorted_docs[i]["group"].strip()] = []
+    group_docs[sorted_docs[i]["group"].strip()].append(sorted_docs[i])
 
 
 def create_doc() -> Iterator[str]:
@@ -63,7 +67,7 @@ def create_doc() -> Iterator[str]:
                 yield data.get('content', '').strip()
                 yield "```"
                 if "note" in data:
-                    yield data.get('note', '')
+                    yield data.get('note', '').strip()
 
 
 with open(f"{api_real_path}/api_doc.md", "w", encoding='utf-8') as f:
