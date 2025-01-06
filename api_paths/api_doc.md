@@ -8,11 +8,9 @@ This is to get 'b' without id
 #### output
 
 ```json
-
 {
     "content": "b"
 }
-
 ```
 
 ### POST: `/a/b` Post b
@@ -26,11 +24,9 @@ This is to get 'b'
 #### output
 
 ```json
-
 {
     "content": "b"
 }
-
 ```
 
 ## c

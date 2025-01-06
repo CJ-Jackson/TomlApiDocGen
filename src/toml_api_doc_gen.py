@@ -63,9 +63,7 @@ def create_doc() -> Iterator[str]:
             yield doc.get("summary", "")
             for key, data in doc.get("data", {}).items():
                 yield f"#### {key}"
-                yield f"```{data.get('type', '').strip()}"
-                yield data.get('content', '').strip()
-                yield "```"
+                yield f"```{data.get('type', '').strip()}\n{data.get('content', '').strip()}\n```"
                 if "note" in data:
                     yield data.get('note', '').strip()
 
