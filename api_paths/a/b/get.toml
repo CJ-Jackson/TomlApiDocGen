@@ -1,0 +1,11 @@
+# /a/b
+group = "b"
+title = "Get B without id"
+
+summary = "This is to get 'b' without id"
+
+[data.output]
+type = "json"
+content = '''{
+    "content": "b"
+}'''

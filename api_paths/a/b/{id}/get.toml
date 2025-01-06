@@ -1,0 +1,11 @@
+# /a/b
+group = "b"
+title = "Get B"
+
+summary = "This is to get 'b'"
+
+[data.output]
+type = "json"
+content = '''{
+    "content": "b"
+}'''
