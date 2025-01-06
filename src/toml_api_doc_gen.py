@@ -60,7 +60,7 @@ def create_doc() -> Iterator[str]:
         yield f"## {group}"
         for doc in docs:
             yield f"### {doc['method'].strip()}: `{doc['endpoint'].strip()}` {doc.get('title', '').strip()}"
-            yield doc.get("summary", "")
+            yield doc.get("summary", "").strip()
             for key, data in doc.get("data", {}).items():
                 yield f"#### {key}"
                 yield f"```{data.get('type', '').strip()}\n{data.get('content', '').strip()}\n```"
