@@ -1,10 +1,12 @@
 # /a/b
+
+[markdown]
 group = "b"
 title = "Get B"
 
 summary = "This is to get 'b'"
 
-[data.output]
+[markdown.data.output]
 type = "json"
 content = '''{
     "content": "b"

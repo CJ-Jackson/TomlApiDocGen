@@ -30,10 +30,11 @@ def open_and_add_path_detail() -> Iterator[dict]:
         with open(doc, "rb") as docf:
             doc_data = tomllib.load(docf)
             match doc_data:
-                case {"group": str()}:
+                case {"markdown": {"group": str()}}:
                     pass
                 case _:
                     raise TomlValidationError("Must have `group`")
+            doc_data = doc_data["markdown"]
             doc_data["endpoint"] = os.path.dirname(doc.removeprefix(api_real_path))
             doc_data["method"] = os.path.basename(doc).removesuffix(".toml").upper()
             yield doc_data
