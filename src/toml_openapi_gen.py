@@ -62,8 +62,13 @@ def update_dicts(dict1: dict, dict2: dict):
     return dict1
 
 
-for path in open_and_yield_path_detail():
-    open_api_data = update_dicts(open_api_data, path)
+try:
+    for path in open_and_yield_path_detail():
+        open_api_data = update_dicts(open_api_data, path)
+except (OSError, tomllib.TOMLDecodeError) as e:
+    print(e.__str__(), file=sys.stderr)
+    exit(100)
+
 
 with open(f"{api_real_path}/openapi.json", "w", encoding='utf-8') as f:
     json.dump(open_api_data, f, indent="  ")
