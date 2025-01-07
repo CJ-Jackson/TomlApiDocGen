@@ -14,3 +14,15 @@ content = '''{
 note = '''
 See [appendix-b](appendix.md#appendix-b)
 '''
+
+[openapi]
+summary = "b"
+
+[openapi.responses.200]
+description = "A JSON array of user names"
+
+[openapi.responses.200.content."application/json".schema]
+type = "array"
+
+[openapi.responses.200.content."application/json".schema.items]
+type = "string"
