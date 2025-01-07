@@ -5,7 +5,6 @@ import pathlib
 import sys
 import tomllib
 from collections.abc import Iterator
-from functools import reduce
 
 if not os.path.exists("api_paths/openapi.toml"):
     print("`api_paths/openapi.toml` does not exists", file=sys.stderr)
