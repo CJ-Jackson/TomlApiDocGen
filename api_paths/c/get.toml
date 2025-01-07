@@ -7,7 +7,7 @@ title = "Get c"
 summary = "This is to get 'c'"
 
 [openapi]
-summary = "c"
+summary = "This is to get 'c'"
 operationId = "cGet"
 
 [openapi.responses.200]

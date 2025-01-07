@@ -37,7 +37,7 @@
         }
       },
       "post": {
-        "summary": "b",
+        "summary": "This is to post to 'b'",
         "operationId": "bPost",
         "responses": {
           "200": {
@@ -58,7 +58,7 @@
     },
     "/a/b/{id}": {
       "get": {
-        "summary": "b",
+        "summary": "This is to get 'b'",
         "operationId": "bWithId",
         "parameters": [
           {
@@ -90,7 +90,7 @@
     },
     "/c": {
       "get": {
-        "summary": "c",
+        "summary": "This is to get 'c'",
         "operationId": "cGet",
         "responses": {
           "200": {

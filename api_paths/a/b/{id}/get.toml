@@ -16,7 +16,7 @@ See [appendix-c](appendix.md#appendix-c)
 '''
 
 [openapi]
-summary = "b"
+summary = "This is to get 'b'"
 operationId = "bWithId"
 
 [[openapi.parameters]]

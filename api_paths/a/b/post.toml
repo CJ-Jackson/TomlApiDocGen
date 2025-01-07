@@ -7,7 +7,7 @@ title = "Post b"
 summary = "This is to post to 'b'"
 
 [openapi]
-summary = "b"
+summary = "This is to post to 'b'"
 operationId = "bPost"
 
 [openapi.responses.200]
