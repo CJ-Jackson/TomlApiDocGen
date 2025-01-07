@@ -14,12 +14,12 @@ api_real_path = os.path.realpath("api_paths")
 
 api_paths = pathlib.Path(api_real_path)
 
-docs = []
+paths_data = []
 methods = ["get", "head", "options", "trace", "post", "put", "delete", "patch", "connect"]
 for method in methods:
-    docs += list(api_paths.glob(f"**/{method}.toml"))
+    paths_data += list(api_paths.glob(f"**/{method}.toml"))
 
-docs.sort()
+paths_data.sort()
 
 
 open_api_data = {}
@@ -36,9 +36,9 @@ class TomlValidationError(Exception): pass
 
 
 def open_and_yield_path_detail() -> Iterator[dict]:
-    for doc in docs:
-        doc = str(doc)
-        with open(doc, "rb") as docf:
+    for path_data in paths_data:
+        path_data = str(path_data)
+        with open(path_data, "rb") as docf:
             doc_data = tomllib.load(docf)
             match doc_data:
                 case {"openapi": dict()}:
@@ -47,8 +47,8 @@ def open_and_yield_path_detail() -> Iterator[dict]:
                     raise TomlValidationError("Must have `openapi.summary`")
             yield {
                 "paths": {
-                    os.path.dirname(doc.removeprefix(api_real_path)): {
-                        os.path.basename(doc).removesuffix(".toml").lower(): doc_data["openapi"]
+                    os.path.dirname(path_data.removeprefix(api_real_path)): {
+                        os.path.basename(path_data).removesuffix(".toml").lower(): doc_data["openapi"]
                     }
                 }
             }

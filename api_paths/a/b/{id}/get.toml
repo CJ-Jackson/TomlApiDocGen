@@ -17,6 +17,7 @@ See [appendix-c](appendix.md#appendix-c)
 
 [openapi]
 summary = "b"
+operationId = "bWithId"
 
 [[openapi.parameters]]
 in = "path"
