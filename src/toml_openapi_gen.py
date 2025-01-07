@@ -8,7 +8,7 @@ from collections.abc import Iterator
 from functools import reduce
 
 if not os.path.exists("api_paths/openapi.toml"):
-    print("`api_paths` does not exists", file=sys.stderr)
+    print("`api_paths/openapi.toml` does not exists", file=sys.stderr)
     exit(100)
 
 api_real_path = os.path.realpath("api_paths")
