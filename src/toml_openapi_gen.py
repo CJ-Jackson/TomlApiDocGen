@@ -62,6 +62,7 @@ def update_dicts(dict1: dict, dict2: dict):
             dict1[key] = value
     return dict1
 
+
 for path in open_and_yield_path_detail():
     open_api_data = update_dicts(open_api_data, path)
 
