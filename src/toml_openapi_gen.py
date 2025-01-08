@@ -21,6 +21,7 @@ for method in methods:
 
 paths_data.sort()
 
+components_data = list(api_paths.glob(f"**/components.toml"))
 
 open_api_data = {}
 try:
@@ -41,17 +42,33 @@ def open_and_yield_path_detail() -> Iterator[dict]:
         with open(path_data, "rb") as docf:
             doc_data = tomllib.load(docf)
             match doc_data:
-                case {"openapi": dict()}:
+                case {"openapi_paths": dict()}:
                     pass
                 case _:
-                    raise TomlValidationError("Must have `openapi.summary`")
+                    raise TomlValidationError("Must have `openapi_paths`")
             yield {
                 "paths": {
                     os.path.dirname(path_data.removeprefix(api_real_path)): {
-                        os.path.basename(path_data).removesuffix(".toml").lower(): doc_data["openapi"]
+                        os.path.basename(path_data).removesuffix(".toml").lower(): doc_data["openapi_paths"]
                     }
                 }
             }
+
+
+def open_and_yield_components_detail() -> Iterator[dict]:
+    for component_data in components_data:
+        component_data = str(component_data)
+        with open(component_data, "rb") as docf:
+            doc_data = tomllib.load(docf)
+            match doc_data:
+                case {"openapi_components": dict()}:
+                    pass
+                case _:
+                    raise TomlValidationError("Must have `openapi_path`")
+            yield {
+                "components": doc_data["openapi_components"]
+            }
+
 
 def update_dicts(dict1: dict, dict2: dict):
     for key, value in dict2.items():
@@ -65,6 +82,8 @@ def update_dicts(dict1: dict, dict2: dict):
 try:
     for path in open_and_yield_path_detail():
         open_api_data = update_dicts(open_api_data, path)
+    for component in open_and_yield_components_detail():
+        open_api_data = update_dicts(open_api_data, component)
 except (OSError, tomllib.TOMLDecodeError) as e:
     print(e.__str__(), file=sys.stderr)
     exit(100)
