@@ -41,18 +41,34 @@ def open_and_yield_path_detail() -> Iterator[dict]:
         path_data = str(path_data)
         with open(path_data, "rb") as docf:
             doc_data = tomllib.load(docf)
+            has_paths = False
+            has_webhooks = False
             match doc_data:
+                case {"openapi_paths": dict(), "openapi_webhooks": dict()}:
+                    has_paths = True
+                    has_webhooks = True
                 case {"openapi_paths": dict()}:
-                    pass
+                    has_paths = True
+                case {"openapi_webhooks": dict()}:
+                    has_webhooks = True
                 case _:
-                    raise TomlValidationError("Must have `openapi_paths`")
-            yield {
-                "paths": {
-                    os.path.dirname(path_data.removeprefix(api_real_path)): {
-                        os.path.basename(path_data).removesuffix(".toml").lower(): doc_data["openapi_paths"]
+                    raise TomlValidationError("Must have `openapi_paths`(dict) or `openapi_webhooks`(dict)")
+            if has_paths:
+                yield {
+                    "paths": {
+                        os.path.dirname(path_data.removeprefix(api_real_path)): {
+                            os.path.basename(path_data).removesuffix(".toml").lower(): doc_data["openapi_paths"]
+                        }
                     }
                 }
-            }
+            if has_webhooks:
+                yield {
+                    "webhooks": {
+                        os.path.dirname(path_data.removeprefix(api_real_path)): {
+                            os.path.basename(path_data).removesuffix(".toml").lower(): doc_data["openapi_webhooks"]
+                        }
+                    }
+                }
 
 
 def open_and_yield_components_detail() -> Iterator[dict]:
