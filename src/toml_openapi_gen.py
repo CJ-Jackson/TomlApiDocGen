@@ -78,7 +78,7 @@ def open_and_yield_components_detail() -> Iterator[dict]:
                 case {"openapi_components": dict()}:
                     pass
                 case _:
-                    raise TomlValidationError("Must have `openapi_path`")
+                    raise TomlValidationError("Must have `openapi_components`(dict)")
             yield {
                 "components": doc_data["openapi_components"]
             }
