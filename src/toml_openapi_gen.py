@@ -31,8 +31,6 @@ except (OSError, tomllib.TOMLDecodeError) as e:
     print(e.__str__(), file=sys.stderr)
     exit(100)
 
-open_api_data["paths"] = {}
-
 class TomlValidationError(Exception): pass
 
 
