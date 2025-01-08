@@ -102,6 +102,10 @@ except (OSError, tomllib.TOMLDecodeError) as e:
     print(e.__str__(), file=sys.stderr)
     exit(100)
 
+if "paths" in open_api_data:
+    open_api_data["paths"] = dict(sorted(open_api_data["paths"].items()))
+if "webhooks" in open_api_data:
+    open_api_data["webhooks"] = dict(sorted(open_api_data["webhooks"].items()))
 
 with open(f"{api_real_path}/openapi.json", "w", encoding='utf-8') as f:
     json.dump(open_api_data, f, indent="  ")
