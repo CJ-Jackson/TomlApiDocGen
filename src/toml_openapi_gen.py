@@ -98,7 +98,7 @@ try:
         open_api_data = update_dicts(open_api_data, path)
     for component in open_and_yield_components_detail():
         open_api_data = update_dicts(open_api_data, component)
-except (OSError, tomllib.TOMLDecodeError) as e:
+except (OSError, tomllib.TOMLDecodeError, TomlValidationError) as e:
     print(e.__str__(), file=sys.stderr)
     exit(100)
 
